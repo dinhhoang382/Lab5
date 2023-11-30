@@ -1,58 +1,40 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import auth from '@react-native-firebase/auth';
+import {createContext, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
 
-const AuthContext = createContext();
+import auth from '@react-native-firebase/auth';
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(false);
 
-  useEffect(() => {
-    const unsubscribeAuth = auth().onAuthStateChanged((authUser) => {
-      setUser(authUser);
+export const UserContext = createContext();
 
-      if (authUser) {
-        firestore().collection('users').doc(authUser.uid).get()
-          .then((snapshot) => {
-            const userData = snapshot.data();
-            setIsAdmin(userData?.isAdmin || false);
-          })
-          .catch((error) => console.error('Error fetching user data:', error));
-      } else {
-        setIsAdmin(false);
-      }
-    });
+export const UserProvider = ({children}) => {
+  const [userInfo, setUserInfo] = useState();
+  const [errMessage, setErrMessage] = useState(null);
+  const Users = firestore().collection('users');
 
-    return () => unsubscribeAuth();
-  }, []);
-
-  const signIn = async (email, password) => {
-    try {
-      await auth().signInWithEmailAndPassword(email, password);
-    } catch (error) {
-      console.error('Error signing in:', error);
+  let loginUser = async (email, password) => {
+ 
+  Users.doc(email).onSnapshot( user => {
+    if(!user.exists) {
+      setErrMessage("err")
+      return;
     }
+    const res =  user.data();
+     setUserInfo(res);
+     setErrMessage(null);
+  });
+}
+
+  let logoutUser = () => {
+    setUserInfo(null);
+   
   };
-
-  const signOut = async () => {
-    try {
-      await auth().signOut();
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
+  let contextData = {
+    errMessage,
+    userInfo,
+    loginUser,
+    logoutUser,
   };
-
-  const value = {
-    user,
-    isAdmin,
-    signIn,
-    signOut,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
-
-export const useAuth = () => {
-  return useContext(AuthContext);
+  return (
+    <UserContext.Provider value={{...contextData}}>{children}</UserContext.Provider>
+  );
 };

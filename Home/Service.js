@@ -4,10 +4,11 @@ import firestore from '@react-native-firebase/firestore';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { ScrollView } from 'react-native-virtualized-view'
-import { UserContext } from '../context/UseContext';
+import { UserProvider, UserContext } from '../context/UseContext';
+
 const Service = ({ navigation }) => {
     const [services, setServices] = useState([]);
-    // const {user} = useContext(UserContext);
+    const { userInfo } = useContext(UserContext);
 
     useEffect(() => {
         const unsubscribe = firestore().collection('services').onSnapshot((snapshot) => {
@@ -25,13 +26,11 @@ const Service = ({ navigation }) => {
         navigation.navigate('DetailsService', {
             serviceName: service.serviceName,
             price: service.price,
-           
         });
     };
 
     const handleEdit = (service) => {
         navigation.navigate('EditService', { id: service.id });
-
     };
 
     const handleDelete = async (service) => {
@@ -64,55 +63,54 @@ const Service = ({ navigation }) => {
         <View>
             <View style={styles.container}>
                 <View>
-                    <Text style={{fontWeight:'600'}}>Danh sách dịch vụ</Text>
+                    <Text style={{ fontWeight: '600' }}>Danh sách dịch vụ</Text>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('AddService')}>
-                    <Text>
-                        <Icon name="add-circle" size={45} style={{ color: 'red' }} />
-                    </Text>
-                </TouchableOpacity>
+                {userInfo && userInfo.role === 'admin' && (
+                    <TouchableOpacity onPress={() => navigation.navigate('AddService')}>
+                        <Text>
+                            <Icon name="add-circle" size={45} style={{ color: 'red' }} />
+                        </Text>
+                    </TouchableOpacity>
+                )}
             </View>
-<ScrollView>
-            <FlatList
-    data={services}
-    keyExtractor={(item) => item.id}
-    renderItem={({ item }) => (
-        <View style={{ flexDirection: 'row', margin: 5 }}>
-            <View style={styles.item}>
-                <TouchableOpacity onPress={() => handleDetails(item)}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                        <View>
-                            <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{item.serviceName}</Text>
-                            <Text>{item.price +" đ"}</Text>
-                        </View>
-                        <View style={{flexDirection:'row'}}>
-                        <Pressable onPress={() => handleEdit(item)}>
-                            <View style={{ backgroundColor: 'green', padding: 10, borderRadius:50, marginRight: 10}}>
-                                <Text>
-                                <Icon name="edit" size={20} style={{ color: 'white' }} />
-                                    </Text>
+            <ScrollView>
+                <FlatList
+                    data={services}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <View style={{ flexDirection: 'row', margin: 5 }}>
+                            <View style={styles.item}>
+                                <TouchableOpacity onPress={() => handleDetails(item)}>
+                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <View>
+                                            <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{item.serviceName}</Text>
+                                            <Text>{item.price + " đ"}</Text>
+                                        </View>
+                                        {userInfo && userInfo.role === 'admin' && (
+                                            <View style={{ flexDirection: 'row' }}>
+                                                <Pressable onPress={() => handleEdit(item)}>
+                                                    <View style={{ backgroundColor: 'green', padding: 10, borderRadius: 50, marginRight: 10 }}>
+                                                        <Text>
+                                                            <Icon name="edit" size={20} style={{ color: 'white' }} />
+                                                        </Text>
+                                                    </View>
+                                                </Pressable>
+                                                <Pressable onPress={() => handleDelete(item)}>
+                                                    <View style={{ backgroundColor: 'red', padding: 10, borderRadius: 50 }}>
+                                                        <Text>
+                                                            <Icon name="delete" size={20} style={{ color: 'white' }} />
+                                                        </Text>
+                                                    </View>
+                                                </Pressable>
+                                            </View>
+                                        )}
+                                    </View>
+                                </TouchableOpacity>
                             </View>
-                            
-                        </Pressable>
-                        <Pressable onPress={() => handleDelete(item)}>
-                            <View style={{ backgroundColor: 'red', padding: 10, borderRadius:50}}>
-                                <Text>
-                                <Icon name="delete" size={20} style={{ color: 'white' }} />
-                                    </Text>
-                            </View>
-                            
-                        </Pressable>
                         </View>
-                      
-                        
-                    </View>
-                    
-                </TouchableOpacity>
-            </View>
-        </View>
-    )}
-/>
-</ScrollView>
+                    )}
+                />
+            </ScrollView>
         </View>
     );
 };
@@ -122,18 +120,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 20,
-        
     },
     item: {
         width: '100%',
         borderWidth: 1,
         padding: 15,
-        borderColor:'gray',
+        borderColor: 'gray',
         borderRadius: 10,
-
-
     }
 });
 
 export default Service;
-

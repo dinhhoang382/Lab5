@@ -12,15 +12,12 @@ import AddService from './Home/AddService';
 import DetailService from './Home/DetailsService';
 import EditService from './Home/EditService';
 import Logout from './Home/Logout';
-import { AuthProvider } from './context/UseContext';
+import { UserProvider } from './context/UseContext';
 const Stack = createStackNavigator();
 
 const Router = ({navigation}) => {
   return (
-    
-    <AuthProvider>
     <NavigationContainer independent={true}>
-      
     <Stack.Navigator> 
     <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/> 
     <Stack.Screen name="Service" component={Service} />  
@@ -28,11 +25,11 @@ const Router = ({navigation}) => {
     <Stack.Screen name="DetailsService" component={DetailService}/> 
     <Stack.Screen name="EditService" component={EditService}/> 
     <Stack.Screen name="Logout" component={Logout}/> 
-
-    <Stack.Screen name="Login" component={Login}/> 
+    <Stack.Screen name="SignUp" component={SignUp} /> 
+    <Stack.Screen name="Login" component={Login} /> 
   </Stack.Navigator> 
   </NavigationContainer>
-  </AuthProvider>
+
 
 
   );

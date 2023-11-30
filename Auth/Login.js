@@ -1,52 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, StyleSheet, Alert, Pressable, Text} from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 
 import firestore from '@react-native-firebase/firestore';
+import {UserContext} from '../context/UseContext';
 
-const adminUser = {
-    uid: '123',
-    email: 'thangpy2k2@gmail.com',
-    isAdmin: true,
-  };
-
-firestore().collection('users').doc(adminUser.uid).set(adminUser);
 
 const Login = ({navigation}) => {
     const [email, setEmail] = useState();
     const [pass, setPass] = useState();
     const [showPassword, setShowPassword] = useState(false);
-    
+    let {loginUser} = useContext(UserContext);
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
       };
-    const handleLogin = () => {
-    
-        auth()
-            .signInWithEmailAndPassword(email, pass)
-            .then(() => {
-                navigation.navigate("Router")
-               
-            })
-            .catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                    console.log('That email address is already in use!');
-                }
-
-                if (error.code === 'auth/invalid-email') {
-                    console.log('That email address is invalid!');
-                }
-
-                // console.error(error);
-            });
-       
-    }
 
     return (
         <View style={{flex:1,justifyContent:'center', margin:10, borderRadius:20}}>
            
-           <Text style={{color: 'red', fontSize: 25, fontWeight: 'bold',alignSelf:'center'}}>TRUNG THANG</Text>
+           <Text style={{color: 'red', fontSize: 25, fontWeight: 'bold',alignSelf:'center'}}>TRAN TRUNG THANG</Text>
                
             <TextInput
                 style={{...styles.TextInput,margin: 10, borderRadius:10}}
@@ -73,16 +46,21 @@ const Login = ({navigation}) => {
                 borderRadius:10, 
         
                }}
-            onPress={handleLogin}>
-            {/* onPress={()=> navigation.navigate("Router")}> */}
-                  <Text style={{color: '#fff', fontSize: 15, fontWeight: 'bold'}}>LOGIN</Text>
+            onPress={() => loginUser(email, pass).then(()=> navigation.navigate("Router"))}>
+                  <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>SignIn</Text>
                 </Pressable>
             </View>
-            {/* <View>
-                <Pressable onPress={()=> navigation.navigate("SignUp")}>
-                    <Text>SignUp</Text>
+            <View style={{justifyContent: 'center', padding: 10,paddingTop:0 }}>
+                <Pressable 
+                style={{backgroundColor: "red", 
+                alignItems:'center',
+                padding: 15, 
+                borderRadius:10, 
+            }}
+            onPress={()=> navigation.navigate("SignUp")}>
+                   <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>SignUp</Text>
                 </Pressable>
-                </View> */}
+                </View>
         </View>
     );
 }

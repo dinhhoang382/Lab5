@@ -1,7 +1,15 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import {View, StyleSheet,Text, Pressable} from 'react-native';
+import { BackHandler } from 'react-native';
 import auth from '@react-native-firebase/auth';
-const Logout = () => {
+import {UserContext} from '../context/UseContext';
+
+const Logout = ({navigation}) => {
+    let {logoutUser} = useContext(UserContext);
+    const handleLogout = () =>{
+        logoutUser();
+        BackHandler.exitApp();
+    }
     return (
         <View style={styles.container}>
                <Pressable 
@@ -12,7 +20,7 @@ const Logout = () => {
                 width:150
                }}
     
-            onPress={()=> auth().signOut().then(() => navigation.navigate('Login'))}>
+               onPress={handleLogout}>
                   <Text style={{color: '#fff', fontSize: 15, fontWeight: 'bold'}}>Logout</Text>
                 </Pressable>
         </View>

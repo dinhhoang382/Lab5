@@ -14,10 +14,10 @@ import AddService from './AddService';
 import Logout from './Logout';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { AuthProvider } from '../context/UseContext';
+
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+
 
 const getTabBarIcon = icon => ({ tintColor }) => (
   <Icon name={icon} size={26} style={{ color: "black" }} />
@@ -48,7 +48,7 @@ const MyTabs = () => {
       />
       <Tab.Screen
         name="Customer"
-        component={Logout}
+        component={Login}
         options={{
           tabBarIcon: getTabBarIcon('supervised-user-circle'),
         }}

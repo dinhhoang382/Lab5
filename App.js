@@ -1,36 +1,59 @@
-import 'react-native-gesture-handler';
+import React, { useEffect } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+
 import SignUp from './Auth/SignUp';
 import Login from './Auth/Login';
 import Home from './Home/Home';
-import FirestoreCRUD from './Home/CRUD';
-import Service from './Home/Service';
 import Router from './Router';
 import AddService from './Home/AddService';
-import DetailsService from './Home/DetailsService';
-import { AuthProvider } from './context/UseContext'
+import Logout from './Home/Logout';
+import { UserProvider } from './context/UseContext';
 
 const Stack = createStackNavigator();
 
 const App = () => {
+  const user = async () => {
+    const ref = firestore().collection('users');
+    const admin = {
+      email: 'thangpy2k2@gmail.com',
+      password: '123123',
+      role: 'admin',
+    };
+
+    await ref.doc(admin.email).onSnapshot((u) => {
+      if (!u.exists) {
+        auth()
+          .createUserWithEmailAndPassword(admin.email, admin.password)
+          .then(() => {
+            ref.doc(admin.email).set({
+              ...admin,
+            });
+          });
+      }
+    });
+  };
+
+  useEffect(() => {
+    user();
+  }, []); 
+
   return (
-      <AuthProvider>
-        <NavigationContainer independent={true}>
+    <NavigationContainer independent={true}>
+      <UserProvider>
         <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/> 
-        <Stack.Screen name="AddService" component={AddService} options={{ headerShown: false }}/> 
-        <Stack.Screen name="Router" component={Router} options={{ headerShown: false }}/> 
-
-      </Stack.Navigator>
-      </NavigationContainer>
-      </AuthProvider>
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+          <Stack.Screen name="AddService" component={AddService} options={{ headerShown: false }} />
+          <Stack.Screen name="Router" component={Router} options={{ headerShown: false }} />
+          <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
+          <Stack.Screen name="Logout" component={Logout} />
+        </Stack.Navigator>
+      </UserProvider>
+    </NavigationContainer>
   );
-}
-
-const styles = StyleSheet.create({})
+};
 
 export default App;
