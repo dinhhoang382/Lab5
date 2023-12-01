@@ -17,19 +17,18 @@ const Stack = createStackNavigator();
 
 const Router = ({navigation}) => {
   return (
-    <NavigationContainer independent={true}>
+   
     <Stack.Navigator> 
+    <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/> 
     <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/> 
     <Stack.Screen name="Service" component={Service} />  
     <Stack.Screen name="AddService" component={AddService}/> 
     <Stack.Screen name="DetailsService" component={DetailService}/> 
     <Stack.Screen name="EditService" component={EditService}/> 
-    <Stack.Screen name="Logout" component={Logout}/> 
-    <Stack.Screen name="SignUp" component={SignUp} /> 
-    <Stack.Screen name="Login" component={Login} /> 
-  </Stack.Navigator> 
-  </NavigationContainer>
+    <Stack.Screen name="Logout" component={Logout} options={{ headerShown: false }}/> 
+    <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}/> 
 
+  </Stack.Navigator> 
 
 
   );

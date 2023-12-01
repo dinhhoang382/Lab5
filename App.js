@@ -41,18 +41,11 @@ const App = () => {
   }, []); 
 
   return (
+    <UserProvider>
     <NavigationContainer independent={true}>
-      <UserProvider>
-        <Stack.Navigator>
-          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-          <Stack.Screen name="AddService" component={AddService} options={{ headerShown: false }} />
-          <Stack.Screen name="Router" component={Router} options={{ headerShown: false }} />
-          <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
-          <Stack.Screen name="Logout" component={Logout} />
-        </Stack.Navigator>
-      </UserProvider>
+       <Router/>
     </NavigationContainer>
+    </UserProvider>
   );
 };
 

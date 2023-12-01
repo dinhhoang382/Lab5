@@ -8,7 +8,8 @@ const Logout = ({navigation}) => {
     let {logoutUser} = useContext(UserContext);
     const handleLogout = () =>{
         logoutUser();
-        BackHandler.exitApp();
+        navigation.navigate("Login");
+        // BackHandler.exitApp();
     }
     return (
         <View style={styles.container}>

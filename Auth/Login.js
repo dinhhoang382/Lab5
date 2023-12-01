@@ -46,7 +46,7 @@ const Login = ({navigation}) => {
                 borderRadius:10, 
         
                }}
-            onPress={() => loginUser(email, pass).then(()=> navigation.navigate("Router"))}>
+            onPress={() => loginUser(email, pass).then(()=> navigation.navigate("Home"))}>
                   <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>SignIn</Text>
                 </Pressable>
             </View>

@@ -48,7 +48,7 @@ const MyTabs = () => {
       />
       <Tab.Screen
         name="Customer"
-        component={Login}
+        component={Logout}
         options={{
           tabBarIcon: getTabBarIcon('supervised-user-circle'),
         }}
