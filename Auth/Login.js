@@ -15,12 +15,19 @@ const Login = ({navigation}) => {
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
       };
-
+      const HandleLogin = () =>{
+        if(email && pass != null){
+            loginUser(email, pass);
+            setEmail("");
+            setPass("");
+            navigation.navigate("Home")
+        }else{
+            Alert.alert("", "Please enter mail or password !")
+        }
+      } 
     return (
         <View style={{flex:1,justifyContent:'center', margin:10, borderRadius:20}}>
-           
            <Text style={{color: 'red', fontSize: 25, fontWeight: 'bold',alignSelf:'center'}}>TRAN TRUNG THANG</Text>
-               
             <TextInput
                 style={{...styles.TextInput,margin: 10, borderRadius:10}}
                 label="Email"
@@ -37,7 +44,7 @@ const Login = ({navigation}) => {
                 secureTextEntry={!showPassword} 
                 right={<TextInput.Icon icon={showPassword ? 'eye' : 'eye-off'} onPress={toggleShowPassword}/>}
             />
-           
+   
             <View style={{justifyContent: 'center', padding: 10 }}>
                 <Pressable 
                 style={{backgroundColor: "red", 
@@ -46,7 +53,7 @@ const Login = ({navigation}) => {
                 borderRadius:10, 
         
                }}
-            onPress={() => loginUser(email, pass).then(()=> navigation.navigate("Home"))}>
+            onPress={HandleLogin}>
                   <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>SignIn</Text>
                 </Pressable>
             </View>
@@ -75,8 +82,6 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 10,
         marginBottom: 5,
         backgroundColor: 'white',
-      
-        // borderWidth: 1,
     }
 })
 

@@ -65,13 +65,13 @@ const Service = ({ navigation }) => {
                 <View>
                     <Text style={{ fontWeight: '600' }}>Danh sách dịch vụ</Text>
                 </View>
-                {userInfo && userInfo.role === 'admin' && (
+                {userInfo && userInfo.role === 'admin' ? (
                     <TouchableOpacity onPress={() => navigation.navigate('AddService')}>
                         <Text>
                             <Icon name="add-circle" size={45} style={{ color: 'red' }} />
                         </Text>
                     </TouchableOpacity>
-                )}
+                ):null}
             </View>
             <ScrollView>
                 <FlatList

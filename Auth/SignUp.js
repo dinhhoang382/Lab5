@@ -9,7 +9,10 @@ const SignUp = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [pass, setPass] = useState('');
   const [passrp, setPassrp] = useState('');
-
+  const [showPassword, setShowPassword] = useState(false);
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
   const handleSignUp = async () => {
     if (pass === passrp) {
       try {
@@ -17,6 +20,7 @@ const SignUp = ({ navigation }) => {
         await firestore().collection('users').doc(user.uid).set({
           email: user.email,
         });
+        navigation.navigate("Login");
 
         Alert.alert('Success', 'successfully');
       } catch (error) {
@@ -31,47 +35,70 @@ const SignUp = ({ navigation }) => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', margin: 10, borderRadius: 20 }}>
       <TextInput 
+      style={styles.TextInput}
       label="Email" 
       value={email} 
-      onChangeText={(email) => setEmail(email)} />
+      onChangeText={(email) => setEmail(email)} 
+      underlineColor='transparent'
+      />
       <TextInput
+       style={styles.TextInput}
         label="Password"
         value={pass}
         onChangeText={(pass) => setPass(pass)}
-        secureTextEntry
-        right={<TextInput.Icon icon="eye" />}
+        secureTextEntry={!showPassword} 
+        right={<TextInput.Icon icon={showPassword ? 'eye' : 'eye-off'} onPress={toggleShowPassword}/>}
+        underlineColor='transparent'
       />
       <TextInput
+       style={styles.TextInput}
         label="Password repeat"
         value={passrp}
         onChangeText={(passrp) => setPassrp(passrp)}
-        secureTextEntry
-        right={<TextInput.Icon icon="eye" />}
+        secureTextEntry={!showPassword} 
+        right={<TextInput.Icon icon={showPassword ? 'eye' : 'eye-off'} onPress={toggleShowPassword}/>}
+        underlineColor='transparent'
       />
-      <View style={{ alignItems: 'center', justifyContent: 'center', padding: 10 }}>
-        <Pressable
-          style={{
-            borderColor: 'green',
-            borderWidth: 1,
-            padding: 15,
-            borderRadius: 10,
-            width: 200,
-            alignItems: 'center',
-          }}
-          onPress={handleSignUp}
-        >
-          <Text>Sign Up</Text>
-        </Pressable>
-      </View>
-      <View>
-        <Pressable onPress={() => navigation.navigate('Login')}>
-          <Text>Login</Text>
-        </Pressable>
-      </View>
+       <View style={{justifyContent: 'center', padding: 10 }}>
+                <Pressable 
+                style={{backgroundColor: "red", 
+                alignItems:'center',
+                padding: 15, 
+                borderRadius:10, 
+        
+               }}
+            onPress={handleSignUp}>
+                  <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>SignUp</Text>
+                </Pressable>
+            </View>
+            <View style={{justifyContent: 'center', padding: 10,paddingTop:0 }}>
+                <Pressable 
+                style={{backgroundColor: "red", 
+                alignItems:'center',
+                padding: 15, 
+                borderRadius:10, 
+            }}
+            onPress={()=> navigation.navigate("Login")}>
+                   <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>SignIn</Text>
+                </Pressable>
+                </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  TextInput:{
+    width: 350,
+    alignSelf: 'center',
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    marginBottom: 5,
+    backgroundColor: 'white',
+  
+    // borderWidth: 1,
+}
+});
 
 export default SignUp;

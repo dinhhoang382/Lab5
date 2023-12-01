@@ -1,5 +1,5 @@
 import React,{useContext} from 'react';
-import {View, StyleSheet,Text, Pressable} from 'react-native';
+import {View, StyleSheet,Text, Pressable, Alert} from 'react-native';
 import { BackHandler } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {UserContext} from '../context/UseContext';
@@ -7,9 +7,25 @@ import {UserContext} from '../context/UseContext';
 const Logout = ({navigation}) => {
     let {logoutUser} = useContext(UserContext);
     const handleLogout = () =>{
-        logoutUser();
-        navigation.navigate("Login");
-        // BackHandler.exitApp();
+        Alert.alert(
+            '',
+            'Are you sure?',
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Logout',
+                    onPress : () => {
+                        logoutUser();
+                        navigation.navigate("Login");
+                    },
+                    style: 'default',
+                },
+            ],
+            { cancelable: false }
+        )
     }
     return (
         <View style={styles.container}>
