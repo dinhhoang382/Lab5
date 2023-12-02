@@ -28,66 +28,69 @@ const SignUp = ({ navigation }) => {
         // Alert.alert('Error', 'An error occurred while creating the user');
       }
     } else {
-    //   Alert.alert('Error', 'Passwords do not match');
+      //   Alert.alert('Error', 'Passwords do not match');
     }
   };
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', margin: 10, borderRadius: 20 }}>
-      <TextInput 
-      style={styles.TextInput}
-      label="Email" 
-      value={email} 
-      onChangeText={(email) => setEmail(email)} 
-      underlineColor='transparent'
+      <Text style={{ color: '#2ea', fontSize: 26, fontWeight: 'bold', alignSelf: 'center', marginBottom: 20 }}>ĐĂNG KÝ</Text>
+      <TextInput
+        style={styles.TextInput}
+        label="Email"
+        value={email}
+        onChangeText={(email) => setEmail(email)}
+        underlineColor='transparent'
       />
       <TextInput
-       style={styles.TextInput}
+        style={styles.TextInput}
         label="Password"
         value={pass}
         onChangeText={(pass) => setPass(pass)}
-        secureTextEntry={!showPassword} 
-        right={<TextInput.Icon icon={showPassword ? 'eye' : 'eye-off'} onPress={toggleShowPassword}/>}
+        secureTextEntry={!showPassword}
+        right={<TextInput.Icon icon={showPassword ? 'eye' : 'eye-off'} onPress={toggleShowPassword} />}
         underlineColor='transparent'
       />
       <TextInput
-       style={styles.TextInput}
+        style={styles.TextInput}
         label="Password repeat"
         value={passrp}
         onChangeText={(passrp) => setPassrp(passrp)}
-        secureTextEntry={!showPassword} 
-        right={<TextInput.Icon icon={showPassword ? 'eye' : 'eye-off'} onPress={toggleShowPassword}/>}
+        secureTextEntry={!showPassword}
+        right={<TextInput.Icon icon={showPassword ? 'eye' : 'eye-off'} onPress={toggleShowPassword} />}
         underlineColor='transparent'
       />
-       <View style={{justifyContent: 'center', padding: 10 }}>
-                <Pressable 
-                style={{backgroundColor: "red", 
-                alignItems:'center',
-                padding: 15, 
-                borderRadius:10, 
-        
-               }}
-            onPress={handleSignUp}>
-                  <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>SignUp</Text>
-                </Pressable>
-            </View>
-            <View style={{justifyContent: 'center', padding: 10,paddingTop:0 }}>
-                <Pressable 
-                style={{backgroundColor: "red", 
-                alignItems:'center',
-                padding: 15, 
-                borderRadius:10, 
-            }}
-            onPress={()=> navigation.navigate("Login")}>
-                   <Text style={{color: '#fff', fontSize: 18, fontWeight: 'bold'}}>SignIn</Text>
-                </Pressable>
-                </View>
+      <View style={{ justifyContent: 'center', padding: 10 }}>
+        <Pressable
+          style={{
+            backgroundColor: "#3ac",
+            alignItems: 'center',
+            padding: 15,
+            borderRadius: 10,
+
+          }}
+          onPress={handleSignUp}>
+          <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>SignUp</Text>
+        </Pressable>
+      </View>
+      <View style={{ justifyContent: 'center', padding: 10, paddingTop: 0 }}>
+        <Pressable
+          style={{
+            backgroundColor: "#3ac",
+            alignItems: 'center',
+            padding: 15,
+            borderRadius: 10,
+          }}
+          onPress={() => navigation.navigate("Login")}>
+          <Text style={{ color: '#fff', fontSize: 18, fontWeight: 'bold' }}>SignIn</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  TextInput:{
+  TextInput: {
     width: 350,
     alignSelf: 'center',
     borderTopLeftRadius: 10,
@@ -96,9 +99,9 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 10,
     marginBottom: 5,
     backgroundColor: 'white',
-  
+
     // borderWidth: 1,
-}
+  }
 });
 
 export default SignUp;

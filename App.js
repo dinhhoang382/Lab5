@@ -18,8 +18,8 @@ const App = () => {
   const user = async () => {
     const ref = firestore().collection('users');
     const admin = {
-      email: 'thangpy2k2@gmail.com',
-      password: '123123',
+      email: 'hoang382.wk@gmail.com',
+      password: '123456',
       role: 'admin',
     };
 

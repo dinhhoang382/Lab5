@@ -71,7 +71,7 @@ const Service = ({ navigation }) => {
                             <Icon name="add-circle" size={45} style={{ color: 'red' }} />
                         </Text>
                     </TouchableOpacity>
-                ):null}
+                ) : null}
             </View>
             <ScrollView>
                 <FlatList
